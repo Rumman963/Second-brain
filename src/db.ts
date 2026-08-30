@@ -40,7 +40,7 @@ export const TagModel= model('tags', tagSchema);
 
 const linkSchema = new Schema({
 
-  hash: { type: String, required: true },
+  hash: { type: String, required: true , unique: true},
  userId: { type:mongoose.Types.ObjectId, ref: 'users', required: true , unique:true},
 
 });

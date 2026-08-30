@@ -6,13 +6,14 @@ import { userMiddleware } from "./middleware.js";
 
 import { JWT_PASSWORD } from "./config.js";
 import { random } from "./util.js";
+import cors from "cors";
 
 const app= express();
 app.use(express.json());
+app.use(cors());
 
 app.post("/api/v1/signup",async (req,res) =>{
 
-    //Zod validation , hash the password
     const username = req.body.username;
     const password= req.body.password;
 
@@ -119,33 +120,25 @@ app.post("/api/v1/brain/share",userMiddleware, async (req,res) =>{
             userId:req.userId
         });
 
+        if(existingLink){
+        res.json({hash:existingLink.hash})
+        return;
+        }
+
         const hash=random(10)
         await LinkModel.create({
             userId:req.userId,
             hash:hash
-        })
-
-        if(existingLink){
-
-            res.json({
-                hash:existingLink.hash
-            })
-
-            return;
+        });
+        res.json({hash:hash});
+        return;
             
+        }else{
+        
+            await LinkModel.deleteOne({userId:req.userId}) 
+            res.json({message:"Disabled ShareLink"});
+            return;
         }
-        res.json({
-            message:hash
-        })
-      } else{
-             
-        await LinkModel.deleteOne({
-            userId:req.userId
-        })
-      }
-  res.json({
-    message:"Disabled ShareLink"
-  })
 
 })
 
