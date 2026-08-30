@@ -81,5 +81,5 @@ npm install
 npm run dev
 ```
 
-Make sure MongoDB is reachable (connection string is set in `db.ts`), and the server runs on port `3000` by default.
+
 
