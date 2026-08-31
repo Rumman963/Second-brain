@@ -1,4 +1,4 @@
-# SecondBrain — Backend
+# SecondBrain —> Backend
 
 The API server for SecondBrain. Handles user accounts, saving content, deleting content, and generating public share links.
 
